@@ -1,14 +1,21 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useCreatorProfile } from "@/contexts/CreatorProfileContext";
+import { OnboardingFlow } from "@/components/OnboardingFlow";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Index = () => {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const { isOnboarded } = useCreatorProfile();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isOnboarded) {
+      navigate("/dashboard");
+    }
+  }, [isOnboarded, navigate]);
+
+  if (isOnboarded) return null;
+
+  return <OnboardingFlow />;
 };
 
 export default Index;
